@@ -1,0 +1,45 @@
+#!/bin/sh
+
+set -e
+
+SRCDIR=$(pwd)
+
+# Make sure to have a writable copy of the source
+WORKDIR=$(mktemp -d -t regresscheck.XXXXXX)
+cleanup () {
+	cp -a $WORKDIR/regression_output $SRCDIR || :
+	rm -rf $WORKDIR
+}
+trap cleanup 0 HUP INT QUIT ILL ABRT PIPE TERM
+cp -r $SRCDIR/* $WORKDIR/
+cd $WORKDIR
+
+# If executed as root become nobody
+if [ $(id -u) -eq 0 ]
+then
+	chown nobody -R $WORKDIR/
+	SU='su nobody -p -c'
+else
+	SU='bash -c'
+fi
+
+FAILED=
+# Execute make regresscheck for all the supported versions
+for v in $(pg_buildext installed-versions); do
+	echo "### $v ###"
+	if [ "$v" = "9.4" ]; then continue; fi
+	VERSION_PATH="/usr/lib/postgresql/$v/bin:$PATH"
+	if ! $SU "PATH=$VERSION_PATH make regresscheck PG_CONFIG=/usr/lib/postgresql/$v/bin/pg_config USE_PGXS=1"; then
+		set +e
+		cat regression_output/regression.diffs
+		for log in regression_output/log/*.log; do
+			echo "*** $log ***"
+			cat $log
+		done
+		FAILED=1
+	fi
+done
+
+if [ -n "$FAILED" ]; then
+	exit 1
+fi

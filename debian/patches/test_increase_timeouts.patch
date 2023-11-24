@@ -1,0 +1,91 @@
+Index: pglogical/sql/init.sql
+===================================================================
+--- pglogical.orig/sql/init.sql
++++ pglogical/sql/init.sql
+@@ -94,7 +94,7 @@ DROP FUNCTION IF EXISTS public.pglogical
+ COMMIT;
+ 
+ BEGIN;
+-SET LOCAL statement_timeout = '30s';
++SET LOCAL statement_timeout = '60s';
+ SELECT pglogical.wait_for_subscription_sync_complete('test_subscription');
+ COMMIT;
+ 
+Index: pglogical/expected/init.out
+===================================================================
+--- pglogical.orig/expected/init.out
++++ pglogical/expected/init.out
+@@ -101,7 +101,7 @@ SELECT * FROM pglogical.create_subscript
+ DROP FUNCTION IF EXISTS public.pglogical_regress_variables();
+ COMMIT;
+ BEGIN;
+-SET LOCAL statement_timeout = '30s';
++SET LOCAL statement_timeout = '60s';
+ SELECT pglogical.wait_for_subscription_sync_complete('test_subscription');
+  wait_for_subscription_sync_complete 
+ -------------------------------------
+Index: pglogical/sql/column_filter.sql
+===================================================================
+--- pglogical.orig/sql/column_filter.sql
++++ pglogical/sql/column_filter.sql
+@@ -67,7 +67,7 @@ SELECT pglogical.wait_slot_confirm_lsn(N
+ \c :subscriber_dsn
+ 
+ BEGIN;
+-SET LOCAL statement_timeout = '10s';
++SET LOCAL statement_timeout = '60s';
+ SELECT pglogical.wait_for_table_sync_complete('test_subscription', 'basic_dml');
+ COMMIT;
+ 
+Index: pglogical/expected/column_filter.out
+===================================================================
+--- pglogical.orig/expected/column_filter.out
++++ pglogical/expected/column_filter.out
+@@ -105,7 +105,7 @@ SELECT pglogical.wait_slot_confirm_lsn(N
+ 
+ \c :subscriber_dsn
+ BEGIN;
+-SET LOCAL statement_timeout = '10s';
++SET LOCAL statement_timeout = '60s';
+ SELECT pglogical.wait_for_table_sync_complete('test_subscription', 'basic_dml');
+  wait_for_table_sync_complete 
+ ------------------------------
+Index: pglogical/sql/row_filter.sql
+===================================================================
+--- pglogical.orig/sql/row_filter.sql
++++ pglogical/sql/row_filter.sql
+@@ -74,7 +74,7 @@ SELECT pglogical.wait_slot_confirm_lsn(N
+ 
+ -- wait for the initial data to copy
+ BEGIN;
+-SET LOCAL statement_timeout = '10s';
++SET LOCAL statement_timeout = '60s';
+ SELECT pglogical.wait_for_subscription_sync_complete('test_subscription');
+ COMMIT;
+ 
+Index: pglogical/expected/row_filter.out
+===================================================================
+--- pglogical.orig/expected/row_filter.out
++++ pglogical/expected/row_filter.out
+@@ -142,7 +142,7 @@ SELECT pglogical.wait_slot_confirm_lsn(N
+ \c :subscriber_dsn
+ -- wait for the initial data to copy
+ BEGIN;
+-SET LOCAL statement_timeout = '10s';
++SET LOCAL statement_timeout = '60s';
+ SELECT pglogical.wait_for_subscription_sync_complete('test_subscription');
+  wait_for_subscription_sync_complete 
+ -------------------------------------
+Index: pglogical/expected/row_filter_1.out
+===================================================================
+--- pglogical.orig/expected/row_filter_1.out
++++ pglogical/expected/row_filter_1.out
+@@ -142,7 +142,7 @@ SELECT pglogical.wait_slot_confirm_lsn(N
+ \c :subscriber_dsn
+ -- wait for the initial data to copy
+ BEGIN;
+-SET LOCAL statement_timeout = '10s';
++SET LOCAL statement_timeout = '60s';
+ SELECT pglogical.wait_for_subscription_sync_complete('test_subscription');
+  wait_for_subscription_sync_complete 
+ -------------------------------------

@@ -1,0 +1,7 @@
+Depends: @, libipc-run-perl, libtap-parser-sourcehandler-pgtap-perl, make
+Tests: prove
+Restrictions: allow-stderr, flaky
+
+Depends: @, make
+Tests: regresscheck
+Restrictions: allow-stderr, flaky

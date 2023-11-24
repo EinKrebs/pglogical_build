@@ -1,0 +1,341 @@
+pglogical (2.4.4-1.pgdg22.04+1) jammy-pgdg; urgency=medium
+
+  * Rebuild for jammy-pgdg.
+  * No source changes.
+
+ -- PostgreSQL on Debian and Ubuntu <pgsql-pkg-debian@lists.postgresql.org>  Tue, 17 Oct 2023 18:09:54 +0200
+
+pglogical (2.4.4-1) unstable; urgency=medium
+
+  * New upstream version 2.4.4.
+
+ -- Christoph Berg <myon@debian.org>  Tue, 17 Oct 2023 18:09:54 +0200
+
+pglogical (2.4.3-2) unstable; urgency=medium
+
+  * Team upload for PostgreSQL 16.
+  * Cherry pick patches from upstream, and fix them to support PG16.
+  * Use ${postgresql:Depends}.
+  * Mark autopkgtests as flaky, the package mostly works anyway.
+
+ -- Christoph Berg <myon@debian.org>  Mon, 18 Sep 2023 23:32:49 +0200
+
+pglogical (2.4.3-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Christoph Berg <myon@debian.org>  Mon, 07 Aug 2023 11:07:58 +0200
+
+pglogical (2.4.2-3) unstable; urgency=medium
+
+  * debian/control.in, debian/control (Uploaders): Updated.
+
+ -- Michael Banck <mnencia@debian.org>  Fri, 17 Feb 2023 14:04:05 +0100
+
+pglogical (2.4.2-2) unstable; urgency=medium
+
+  * debian/tests/prove: Exit cleanly when test is skipped.
+
+ -- Christoph Berg <myon@debian.org>  Mon, 31 Oct 2022 15:13:35 +0100
+
+pglogical (2.4.2-1) unstable; urgency=medium
+
+  * Team upload for PostgreSQL 15.
+  * Skip prove test on PG 15, test not compatible yet.
+  * Update watch file to look at github releases.
+  * B-D on libzstd-dev.
+
+ -- Christoph Berg <myon@debian.org>  Fri, 21 Oct 2022 13:06:24 +0200
+
+pglogical (2.4.1-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+
+ -- Christoph Berg <myon@debian.org>  Thu, 06 Jan 2022 09:29:34 +0100
+
+pglogical (2.4.0-2) unstable; urgency=medium
+
+  * Team upload.
+  * Test-depend on libtap-parser-sourcehandler-pgtap-perl.
+  * Disable more tests that tend to fail with timeouts.
+
+ -- Christoph Berg <myon@debian.org>  Fri, 26 Nov 2021 13:47:09 +0100
+
+pglogical (2.4.0-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/patches/cve-2021-3515.patch: Removed, no longer needed.
+  * debian/patches/17a83481661e531669d6904920a9109424fa3339.patch: Likewise.
+  * debian/patches/disable-add-table-test: Refreshed.
+  * debian/patches/test_increase_timeouts.patch: Removed no longer needed
+    add_table hunks.
+  * debian/control, debian/tests/control: Updated for v14.
+  * debian/control.in, debian/control (Build-Depends): Added liblz4-dev.
+  * debian/tests/control: Removed postgresql-PGVERSION-pgtap.
+
+ -- Michael Banck <michael.banck@credativ.de>  Fri, 22 Oct 2021 17:45:50 +0200
+
+pglogical (2.3.3-4) unstable; urgency=medium
+
+  * Team upload.
+  * Adjust to PostgreSQL 13.4 snapshot handling fixes (PG commit ef9480509).
+  * debian/watch: Fix github URL.
+  * Remove regression_output/ on clean.
+
+ -- Christoph Berg <myon@debian.org>  Thu, 19 Aug 2021 13:00:20 +0200
+
+pglogical (2.3.3-3) unstable; urgency=high
+
+  * debian/patches/cve-2021-3515.patch: New patch (taken from upstream commit
+    95c0e89), fixes shell injection by pglogical users with CREATEDB access
+    (CVE-2021-3515, Closes: #988735).
+
+ -- Michael Banck <michael.banck@credativ.de>  Wed, 19 May 2021 19:07:56 +0200
+
+pglogical (2.3.3-2) unstable; urgency=medium
+
+  * Team upload.
+  * Add B-D on libreadline-dev as PGXS adds -lreadline, even when it's not
+    being used. (Closes: #973129)
+
+ -- Christoph Berg <myon@debian.org>  Fri, 13 Nov 2020 15:12:59 +0100
+
+pglogical (2.3.3-1) unstable; urgency=medium
+
+  * Team upload.
+
+  [ Michael Banck ]
+  * debian/patches/test_configuration.patch: Set pglogical.synchronous_commit
+    back to true. This seems to stabilize the add_table tests somewhat, so any
+    time savings due to its disabling won't be worth it.
+
+  [ Christoph Berg ]
+  * New upstream version.
+  * Upload for PostgreSQL 13, add B-D on libkrb5-dev.
+  * Use dh --with pgxs.
+  * DH 13, R³: no.
+  * Disable add_table test because it's very slow and tends to fail.
+  * debian/tests: Use 'make' instead of postgresql-server-dev-all.
+  * debian/tests: Use installed-versions instead of supported-versions.
+
+ -- Christoph Berg <myon@debian.org>  Sat, 10 Oct 2020 17:57:26 +0200
+
+pglogical (2.3.2-2) unstable; urgency=medium
+
+  * debian/patches/pglogical_create_subscriber_set_port.patch: Removed, this
+    patch causes an unwanted behaviour change in pglogical_create_subscriber.
+  * debian/patches/adapt_tap_tests.patch: Set subscriber PGPORT in the
+    environment before running pglogical_create_subscriber, now that we no
+    longer hardcode the port.
+
+ -- Michael Banck <michael.banck@credativ.de>  Fri, 25 Sep 2020 14:23:52 +0200
+
+pglogical (2.3.2-1) unstable; urgency=medium
+
+  * New upstream minor release (Closes: #962423).
+
+ -- Michael Banck <michael.banck@credativ.de>  Tue, 09 Jun 2020 00:00:47 +0200
+
+pglogical (2.3.1-1) unstable; urgency=medium
+
+  * New upstream minor release.
+  * debian/patches/test_add_missing_timeouts.patch: Removed, no longer needed. 
+
+ -- Michael Banck <michael.banck@credativ.de>  Tue, 28 Apr 2020 11:29:16 +0200
+
+pglogical (2.3.0-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/patches/post-2.2.2.patch: Removed, no longer needed.
+  * debian/patches/pglogical_create_subscriber_set_port.patch: Refreshed.
+  * debian/patches/test_configuration.patch: Likewise.
+  * debian/patches/test_add_missing_timeouts.patch: New patch, sets
+    statement_timeout before wait_for_subscription_sync_complete() calls in new
+    map testcase.
+  * debian/patches/test_increase_timeouts.patch: Double timeouts of add_table
+    testcase.
+  * debian/control, debian/tests/control: Updated for v12.
+
+ -- Michael Banck <michael.banck@credativ.de>  Wed, 26 Feb 2020 10:12:59 +0100
+
+pglogical (2.2.2-1) unstable; urgency=medium
+
+  * New upstream minor release.
+  * debian/patches/adapt_tap_tests.patch: Updated.
+  * debian/patches/v94_tap_support.patch: Likewise.
+  * debian/patches/test_increase_timeouts.patch: Likewise.
+  * debian/patches/pglogical_dump.patch: New patch, includes the pglogical_dump
+    submodule which is not part of the Github release tarball.
+  * debian/watch: Rewritten for Github.
+  * debian/patches/post-2.2.2.patch: New patch, contains upstream fixes since
+    the 2.2.2 release.
+  * debian/tests/control.in: Run prove tests first.
+  * debian/patches/alternative_regression_outputs.patch: New patch, adds an
+    additional output file for row_filter regression test.
+
+ -- Michael Banck <michael.banck@credativ.de>  Mon, 05 Aug 2019 19:11:36 +0200
+
+pglogical (2.2.1-4) unstable; urgency=medium
+
+  * Team upload.
+  * Recompile against new heap_getattr() API in PostgreSQL 11.2.
+
+ -- Christoph Berg <myon@debian.org>  Tue, 12 Feb 2019 15:11:05 +0100
+
+pglogical (2.2.1-3) unstable; urgency=medium
+
+  * debian/patches/test_increase_timeouts.patch: Increase statement timeouts in
+    further regresssions tests. 
+  * debian/patches/test_configuration.patch: New patch, sets
+    checkpoint_timeout to 30 seconds and wal_sender_timeout to 2 minutes for
+    the regression tests.  Also deactivates pglogical.synchronous_commit ...
+  * debian/patches/deactivate_sync_commit_regresstests.patch: ... dropping this
+    patch.
+
+ -- Michael Banck <michael.banck@credativ.de>  Wed, 06 Feb 2019 18:52:42 +0100
+
+pglogical (2.2.1-2) unstable; urgency=medium
+
+  [ Michael Banck ]
+  * debian/tests/regresscheck: Only exit with failure after all versions have
+    been checked, not immediately. Also, dump full log output on failure.
+  * debian/tests/prove: Likewise.
+  * debian/patches/test_increase_timeouts.patch: Increase statement timeouts in
+    several regression tests.
+
+  [ Christoph Berg ]
+  * Use shared gitlab-ci.yml file from postgresql-common.
+
+ -- Michael Banck <michael.banck@credativ.de>  Tue, 22 Jan 2019 17:41:38 +0100
+
+pglogical (2.2.1-1) unstable; urgency=medium
+
+  * New upstream minor release.
+
+  [ Christoph Berg ]
+  * debian/tests/regresscheck, debian/tests/prove: Show version being tested in
+    testsuite.
+
+  [ Michael Banck ]
+  * debian/patches/pglogical_create_subscriber_set_port.patch: Refreshed. 
+  * debian/patches/v11_support.patch: Removed, no longer needed.
+  * debian/patches/alternative_regression_outputs.patch: Likewise.
+
+ -- Michael Banck <michael.banck@credativ.de>  Mon, 29 Oct 2018 11:02:58 +0100
+
+pglogical (2.2.0-6) unstable; urgency=medium
+
+  * debian/tests/prove: Fix version detection for v9.4.
+
+ -- Michael Banck <michael.banck@credativ.de>  Sat, 20 Oct 2018 16:09:13 +0200
+
+pglogical (2.2.0-5) unstable; urgency=medium
+
+  * debian/patches/v94_tap_support.patch: New patch, adds v9.4 support to
+    020_non_default_replication_set.pl TAP test.
+  * debian/tests/prove: Run 020_non_default_replication_set.pl TAP test on
+    v9.4.
+
+ -- Michael Banck <michael.banck@credativ.de>  Fri, 19 Oct 2018 23:32:20 +0200
+
+pglogical (2.2.0-4) unstable; urgency=medium
+
+  * debian/patches/alternative_regression_outputs.patch: New patch, adding an
+    additional expected output file pre-v11. 
+  * debian/gitlab-ci.yml: Run pg_buildext updatecontrol before build.
+
+ -- Michael Banck <michael.banck@credativ.de>  Fri, 19 Oct 2018 21:13:28 +0200
+
+pglogical (2.2.0-3) unstable; urgency=medium
+
+  * debian/patches/deactivate_sync_commit_regresstests.patch: New patch,
+    deactivates pglogical.synchronous_commit during the regression tests, which
+    seems to make them much faster.
+  * debian/gitlab-ci.yml: New file.
+  * debian/patches/v11_support.patch: Updated with upstream fixes 0a51cbc2
+    through 856fbf72.
+
+ -- Michael Banck <michael.banck@credativ.de>  Fri, 19 Oct 2018 16:20:40 +0200
+
+pglogical (2.2.0-2) unstable; urgency=medium
+
+  [ Christoph Berg ]
+  * Move maintainer address to team+postgresql@tracker.debian.org.
+
+  [ Michael Banck ]
+  * debian/control: Rebuild against postgresql-11.
+  * debian/patches/v11_support.patch: New patch, adds support for PostgreSQL
+    v11, adopted from upstream commits 8328c3ab through 87756182.
+
+ -- Michael Banck <michael.banck@credativ.de>  Tue, 16 Oct 2018 07:08:39 +0200
+
+pglogical (2.2.0-1) unstable; urgency=medium
+
+  * New upstream version 2.2.0
+
+ -- Marco Nenciarini <mnencia@debian.org>  Thu, 22 Mar 2018 07:53:24 +0000
+
+pglogical (2.1.1-2) unstable; urgency=medium
+
+  * debian/patches/expected_output_init_fail_test.patch: Fix regression
+    tests
+  * debian/patches/fix_signalling_to_apply_worker.patch: Fix signalling to
+     apply worker (Closes: #882217)
+
+ -- Marco Nenciarini <mnencia@debian.org>  Thu, 01 Mar 2018 00:22:48 +0000
+
+pglogical (2.1.1-1) unstable; urgency=medium
+
+  [ Christoph Berg ]
+  * Move packaging repository to salsa.debian.org
+
+  [ Marco Nenciarini ]
+  * New upstream version 2.1.1
+  * Bump Standards Version to 4.1.3 (no changes)
+  * debian/rules: Do not ignore make errors during clean
+
+ -- Marco Nenciarini <mnencia@debian.org>  Thu, 11 Jan 2018 12:33:08 +0100
+
+pglogical (2.1.0-1) unstable; urgency=medium
+
+  * New upstream version 2.1.0
+  * debian/patches/rel2_0_stable_branch.patch: Remove outdated patch
+  * debian/patches/v10_compatibility.patch: Remove outdated patch
+  * debian/control, debian/control.in: Add myself to Uploaders field
+
+ -- Marco Nenciarini <mnencia@debian.org>  Tue, 17 Oct 2017 21:27:47 +0000
+
+pglogical (2.0.1-1) unstable; urgency=medium
+
+  [ Marco Nenciarini ]
+  * New upstream version 2.0.1
+  * debian/tests/regresscheck: New file, runs regresscheck instead of
+    installcheck and makes sure the tests run if autopkgtest is started by both
+    root or a regular user.
+  * debian/tests/control.in, debian/tests/control: Switch from installcheck to
+    regresscheck.
+  * debian/tests/installcheck: Removed, no longer needed.
+  * debian/patches/support_installcheck.patch: Likewise.
+
+  [ Michael Banck ]
+  * debian/rules (override_dh_auto_clean): Run make clean.
+  * debian/patches/expected_output_init_fail_test.patch: Adjusted accordingly.
+  * debian/patches/v10_compatibility.patch: New patch, adds support for
+    PostgreSQL v10.
+  * debian/tests/installcheck: Run tests as user postgres if autopkgtest is
+    invoked under root privileges.
+  * debian/control, debian/tests/control: Regenerated via `pg_buildext
+    updatecontrol'.
+  * debian/patches/rel2_0_stable_branch.patch: New patch, adds the changes from
+    the REL2_0_STABLE branch through commit 7eb344bf.
+  * debian/tests/prove: Rewrite according to regresscheck.
+
+ -- Michael Banck <michael.banck@credativ.de>  Mon, 25 Sep 2017 22:24:25 +0200
+
+pglogical (2.0.0-1) unstable; urgency=medium
+
+  * Team upload.
+  * Initial release. (Closes: #837730)
+
+ -- Michael Banck <michael.banck@credativ.de>  Thu, 18 May 2017 20:51:02 +0200

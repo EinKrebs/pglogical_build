@@ -1,0 +1,10 @@
+Index: pglogical/t/perl-95-postgresql.conf
+===================================================================
+--- pglogical.orig/t/perl-95-postgresql.conf
++++ pglogical/t/perl-95-postgresql.conf
+@@ -13,3 +13,5 @@ log_statement = 'all'
+ 
+ pglogical.synchronous_commit = true
+ 
++listen_addresses=''
++unix_socket_directories = '../tmp_socketdir'

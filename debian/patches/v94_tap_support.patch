@@ -1,0 +1,38 @@
+Index: pglogical/t/010_pglogical_create_subscriber.pl
+===================================================================
+--- pglogical.orig/t/010_pglogical_create_subscriber.pl
++++ pglogical/t/010_pglogical_create_subscriber.pl
+@@ -63,7 +63,9 @@ system_or_bail 'psql', '-d', "$PROVIDER_
+ system_or_bail 'psql', '-d', "$PROVIDER_DSN", '-c', "INSERT INTO some_local_tbl3(key, data) VALUES('key2', NULL)";
+ system_or_bail 'psql', '-d', "$PROVIDER_DSN", '-c', "INSERT INTO some_local_tbl3(key, data) VALUES('key3', 'data3')";
+ # Required for PostgreSQL 9.4 run
+-#system_or_bail 'psql', '-d', "$PROVIDER_DSN", '-c', "CREATE EXTENSION IF NOT EXISTS pglogical_origin";
++if ($pg_version < 95) {
++system_or_bail 'psql', '-d', "$PROVIDER_DSN", '-c', "CREATE EXTENSION IF NOT EXISTS pglogical_origin";
++}
+ system_or_bail 'psql', '-d', "$PROVIDER_DSN", '-c', "CREATE EXTENSION IF NOT EXISTS pglogical VERSION '1.0.0'";
+ system_or_bail 'psql', '-d', "$PROVIDER_DSN", '-c', "ALTER EXTENSION pglogical UPDATE";
+ 
+Index: pglogical/t/020_non_default_replication_set.pl
+===================================================================
+--- pglogical.orig/t/020_non_default_replication_set.pl
++++ pglogical/t/020_non_default_replication_set.pl
+@@ -48,12 +48,16 @@ system_or_bail 'psql', '-p', "$PROVIDER_
+ system_or_bail 'psql', '-p', "$PGPORT", '-h', "$SOCKETDIR", '-d', "postgres", '-c', "CREATE USER super SUPERUSER";
+ 
+ # Required for PostgreSQL 9.4 run
+-#system_or_bail 'psql', '-d', "$PROVIDER_DSN", '-c', "CREATE EXTENSION IF NOT EXISTS pglogical_origin";
++if ($pg_version < 95) {
++    system_or_bail 'psql', '-d', "$PROVIDER_DSN", '-c', "CREATE EXTENSION IF NOT EXISTS pglogical_origin";
++}
+ system_or_bail 'psql', '-d', "$PROVIDER_DSN", '-c', "CREATE EXTENSION IF NOT EXISTS pglogical VERSION '1.0.0'";
+ system_or_bail 'psql', '-d', "$PROVIDER_DSN", '-c', "ALTER EXTENSION pglogical UPDATE";
+ 
+ # Required for PostgreSQL 9.4 run
+-#system_or_bail 'psql', '-d', "$SUBSCRIBER_DSN", '-c', "CREATE EXTENSION IF NOT EXISTS pglogical_origin";
++if ($pg_version < 95) {
++    system_or_bail 'psql', '-d', "$SUBSCRIBER_DSN", '-c', "CREATE EXTENSION IF NOT EXISTS pglogical_origin";
++}
+ system_or_bail 'psql', '-d', "$SUBSCRIBER_DSN", '-c', "CREATE EXTENSION IF NOT EXISTS pglogical";
+ 
+ system_or_bail 'psql', '-d', "$PROVIDER_DSN", '-c', "SELECT * FROM pglogical.create_node(node_name := 'test_provider', dsn := 'dbname=postgres user=super')";

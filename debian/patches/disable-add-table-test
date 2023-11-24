@@ -1,0 +1,17 @@
+Remove add_table test because it's very slow and tends to fail
+
+https://github.com/2ndQuadrant/pglogical/issues/126
+
+Index: pglogical/Makefile
+===================================================================
+--- pglogical.orig/Makefile
++++ pglogical/Makefile
+@@ -45,7 +45,7 @@ OBJS = pglogical_apply.o pglogical_confl
+ SCRIPTS_built = pglogical_create_subscriber
+ 
+ REGRESS = preseed infofuncs init_fail init preseed_check basic extended conflict_secondary_unique \
+-		  toasted replication_set add_table matview bidirectional primary_key \
++		  toasted replication_set matview bidirectional primary_key \
+ 		  interfaces foreign_key functions copy triggers parallel row_filter \
+ 		  row_filter_sampling att_list column_filter apply_delay multiple_upstreams \
+ 		  node_origin_cascade drop

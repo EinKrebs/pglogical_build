@@ -1,0 +1,9 @@
+adapt_tap_tests.patch
+test_socketdir.patch
+v94_tap_support.patch
+test_increase_timeouts.patch
+test_configuration.patch
+pglogical_dump.patch
+alternative_regression_outputs.patch
+disable-add-table-test
+disable-flaky-tests

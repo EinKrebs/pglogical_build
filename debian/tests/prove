@@ -1,0 +1,58 @@
+#!/bin/sh
+
+set -e
+
+SRCDIR=$(pwd)
+
+# Make sure to have a writable copy of the source
+WORKDIR=$(mktemp -d -t regresscheck.XXXXXX)
+cleanup () {
+	mkdir -p $SRCDIR/tmp_check/log
+	cp -a $WORKDIR/tmp_check/log/* $SRCDIR/tmp_check/log || :
+	rm -rf $WORKDIR
+}
+trap cleanup 0 HUP INT QUIT ILL ABRT PIPE TERM
+cp -r $SRCDIR/* $WORKDIR/
+cd $WORKDIR
+
+# If executed as root become nobody
+if [ $(id -u) -eq 0 ]
+then
+        chown nobody -R $WORKDIR/
+        SU='su nobody -p -c'
+else
+        SU='bash -c'
+fi
+
+FAILED=
+# Execute pg_prove for all the supported versions
+for v in $(pg_buildext installed-versions); do
+        echo "### $v ###"
+        case $v in
+          15|16)
+            echo "Skipping prove test on PG $v, test not compatible yet"
+            continue
+            ;;
+        esac
+        if [ "$v" = "9.4" ]
+        then
+            TESTS='t/020_non_default_replication_set.pl'
+        else
+            TESTS='t/010_pglogical_create_subscriber.pl t/020_non_default_replication_set.pl'
+        fi
+        VERSION_PATH="/usr/lib/postgresql/$v/bin:$PATH"
+        if ! $SU "PATH=$VERSION_PATH pg_prove -I /usr/lib/postgresql/$v/lib/pgxs/src/makefiles/../../src/test/perl/ -ovf \
+                $TESTS";
+        then
+                set +e
+                for log in tmp_check/log/*.log; do
+                        echo "*** $log ***"
+                        cat $log
+                done
+                FAILED=1
+        fi
+done
+
+if [ -n "$FAILED" ]; then
+	exit 1
+fi

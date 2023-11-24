@@ -1,0 +1,16 @@
+#!/usr/bin/make -f
+
+override_dh_installdocs:
+	dh_installdocs --all README.*
+
+override_dh_pgxs_test:
+	# defer testing to autopkgtest
+
+override_dh_auto_clean:
+	$(MAKE) clean
+	+pg_buildext clean build-%v
+	rm -rf regression.diffs regression.out results tmp_check log
+	rm -f pglogical_create_subscriber_postgres.log
+
+%:
+	dh $@ --with pgxs
